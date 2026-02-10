@@ -5,15 +5,17 @@ fake_typeguard.py - Thay thế cho thư viện typeguard
 """
 
 def check_argument_types():
-    """Hàm giả lập check_argument_types, luôn trả về True."""
+    """Always return True to bypass type checking."""
     return True
 
-def typechecked(func=None, **kwargs):
-    """Hàm giả lập typechecked decorator."""
-    if func is None:
-        # Được gọi với tham số như @typechecked(...)
-        return lambda f: f
-    # Được gọi trực tiếp như @typechecked
-    return func
+def check_return_type(retval, func=None):
+    """Always return the value to bypass return type checking."""
+    return retval
 
-# Thêm các hàm khác từ typeguard nếu cần
+def typechecked(func=None, **kwargs):
+    """Fake decorator that just returns the original function."""
+    if func is None:
+        # When called with parameters like @typechecked(...)
+        return lambda f: f
+    # When called directly like @typechecked
+    return func
