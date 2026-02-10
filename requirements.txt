@@ -1,3 +1,4 @@
+# Thư viện AI & Xử lý dữ liệu
 addict==2.4.0
 aiohappyeyeballs==2.4.4
 aiohttp==3.11.11
@@ -53,7 +54,7 @@ onnxruntime==1.20.1
 openai-whisper==20240930
 opencv-python==4.11.0.86
 oss2==2.19.1
-packaging==24.2
+packaging==24.0.0
 pandas==1.3.5
 pillow==10.2.0
 platformdirs==4.3.6
@@ -90,7 +91,10 @@ torchaudio==2.1.1+cu118
 torchvision==0.16.1+cu118
 tqdm==4.67.1
 triton==2.1.0
-typeguard==2.13.3
+
+# ĐÃ SỬA: Dùng phiên bản typeguard cũ để có hàm check_argument_types
+typeguard==2.7.1
+
 typing_extensions==4.9.0
 umap-learn==0.5.7
 urllib3==1.26.13
@@ -98,3 +102,19 @@ Wave==0.0.2
 xxhash==3.5.0
 yapf==0.43.0
 yarl==1.18.3
+
+# Thêm: Xử lý hình ảnh/video
+imageio
+imageio-ffmpeg
+scikit-image
+
+# Thêm: Thư viện xử lý ngôn ngữ
+g2p-en
+pypinyin
+unidecode
+pykakasi
+romkan
+ko-pron
+epitran
+inflect
+num2words
