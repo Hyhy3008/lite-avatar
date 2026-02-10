@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+fix_imports.py - Script tự động sửa tất cả các file có import typeguard
+"""
+
+import os
+import sys
+
+def fix_file(file_path):
+    """Sửa file Python để thay thế import typeguard."""
+    try:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+    except Exception as e:
+        print(f"Error reading {file_path}: {e}")
+        return False
+    
+    # Thay thế import
+    modified = False
+    
+    # Các pattern import cần thay thế
+    replacements = [
+        ('from typeguard import check_argument_types', 
+         'from fake_typeguard import check_argument_types'),
+        ('from typeguard import typechecked', 
+         'from fake_typeguard import typechecked'),
+        ('from typeguard import check_argument_types, typechecked', 
+         'from fake_typeguard import check_argument_types, typechecked'),
+        ('import typeguard', 
+         'import fake_typeguard as typeguard')
+    ]
+    
+    for old, new in replacements:
+        if old in content:
+            content = content.replace(old, new)
+            modified = True
+    
+    if modified:
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            print(f"✓ Fixed: {file_path}")
+            return True
+        except Exception as e:
+            print(f"Error writing {file_path}: {e}")
+            return False
+    
+    return False
+
+def scan_directory(directory):
+    """Tìm tất cả file Python trong thư mục và sửa chúng."""
+    fixed_count = 0
+    
+    for root, dirs, files in os.walk(directory):
+        # Bỏ qua thư mục .git
+        if '.git' in dirs:
+            dirs.remove('.git')
+        
+        for file in files:
+            if file.endswith('.py'):
+                file_path = os.path.join(root, file)
+                if fix_file(file_path):
+                    fixed_count += 1
+    
+    return fixed_count
+
+if __name__ == "__main__":
+    root_dir = "."  # Thư mục hiện tại
+    if len(sys.argv) > 1:
+        root_dir = sys.argv[1]
+    
+    print(f"Scanning {root_dir} for Python files...")
+    fixed_count = scan_directory(root_dir)
+    print(f"Fixed {fixed_count} files.")
